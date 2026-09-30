@@ -1,3 +1,5 @@
+Design website reference will be this one and it should have the same rich and elegantfeeling for each page until to the booking and the admin oage: https://raphaeliscoiffure.be/en/?utm_source=chatgpt.com
+
 You are the lead frontend engineer and senior digital product designer for this project.
 
 Read the entire CLAUDE.md file before doing ANY implementation.
