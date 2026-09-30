@@ -1,0 +1,12 @@
+.DS_Store
+
+# Environment — only .env.example files are committed
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/

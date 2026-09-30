@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/*
+ * Yllka design foundation
+ *
+ * Palette is built from the brand pair: ink #111111 and sand #EADDCA.
+ * Paper and cream are sand mixed into white (~25% and ~50%) so every
+ * surface stays in the same warm family as the logo.
+ *
+ * Tailwind's default palette is removed on purpose: only these colours exist.
+ */
+@theme {
+  --color-*: initial;
+  --color-ink: #111111;
+  --color-ink-soft: #2b2825; /* hover on filled ink surfaces */
+  --color-paper: #faf7f2; /* page background */
+  --color-cream: #f3ece2; /* secondary surface */
+  --color-sand: #eaddca; /* brand beige */
+  --color-stone: #5f574e; /* muted text — AA on paper, cream and sand */
+  --color-line: rgb(17 17 17 / 0.12);
+  --color-line-light: rgb(250 247 242 / 0.2);
+  --color-error: #9b2c1f; /* form errors — AA on paper */
+
+  --font-*: initial;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+
+  /* Display scale — Cormorant Garamond. Fluid between 375px and 1440px. */
+  --text-display-xl: clamp(3rem, 1.6rem + 4.4vw, 5.25rem);
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.015em;
+  --text-display-lg: clamp(2.5rem, 1.8rem + 2.9vw, 4.25rem);
+  --text-display-lg--line-height: 1.04;
+  --text-display-lg--letter-spacing: -0.01em;
+  --text-display-md: clamp(1.875rem, 1.5rem + 1.55vw, 2.875rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-sm: clamp(1.5rem, 1.35rem + 0.6vw, 1.875rem);
+  --text-display-sm--line-height: 1.2;
+
+  /* Body scale — Jost */
+  --text-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lead--line-height: 1.7;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.16em;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.24em;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  /* Page gutter: 20px on small phones, 56px on large screens */
+  --gutter: clamp(1.25rem, 0.45rem + 3.4vw, 3.5rem);
+  --container: 76rem;
+  /* Fixed header height; main content is offset by this */
+  --header-h: 4.5rem;
+}
+
+@media (width >= 64rem) {
+  :root {
+    --header-h: 5.5rem;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: rgb(17 17 17 / 0.28) transparent;
+    /* Keeps in-page anchors clear of the fixed header */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-sand);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ——— Layout ——— */
+
+@utility container-site {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: clamp(5rem, 3.25rem + 6vw, 9rem);
+}
+
+/* ——— Type ——— */
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* ——— Links ——— */
+
+/*
+ * Hairline that draws in from the left on hover and stays for the current page.
+ * Set --line-trim to the letter-spacing on tracked labels so the line ends at the last glyph.
+ */
+@utility link-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  padding-bottom: 0.3em;
+  transition: background-size 400ms var(--ease-soft);
+
+  @media (hover: hover) {
+    &:hover {
+      background-size: calc(100% - var(--line-trim, 0em)) 1px;
+    }
+  }
+
+  &[aria-current="page"] {
+    background-size: calc(100% - var(--line-trim, 0em)) 1px;
+  }
+}
+
+/* ——— Motion ———
+ * Gentle fade-up as content scrolls into view. Pure CSS (scroll-driven
+ * animation), so it costs no JavaScript. Where unsupported, or when the
+ * visitor prefers reduced motion, content is simply shown.
+ */
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+/* ——— Buttons ———
+ * Square corners, uppercase label, generous tracking.
+ * The right padding is reduced by the tracking so the label sits optically centred.
+ */
+
+@utility btn {
+  --btn-tracking: 0.18em;
+  --btn-pad: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding-inline: var(--btn-pad) calc(var(--btn-pad) - var(--btn-tracking));
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--btn-tracking);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 300ms var(--ease-soft),
+    border-color 300ms var(--ease-soft),
+    color 300ms var(--ease-soft);
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+@utility btn-sm {
+  --btn-pad: 1.25rem;
+  min-height: 2.5rem;
+  font-size: var(--text-eyebrow);
+}
+
+@utility btn-primary {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper);
+
+  &:focus-visible {
+    outline-color: var(--color-ink);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-ink-soft);
+      border-color: var(--color-ink-soft);
+    }
+  }
+}
+
+@utility btn-outline {
+  border-color: rgb(17 17 17 / 0.4);
+  color: var(--color-ink);
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-paper);
+    }
+  }
+}
+
+/* For dark or photographic backgrounds */
+@utility btn-light {
+  border-color: rgb(250 247 242 / 0.55);
+  color: var(--color-paper);
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-paper);
+      border-color: var(--color-paper);
+      color: var(--color-ink);
+    }
+  }
+}
+
+/* ——— Forms ——— */
+
+@utility input {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid rgb(17 17 17 / 0.28);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--color-ink);
+  font-size: 1rem; /* 16px keeps iOS from zooming on focus */
+  transition: border-color 200ms var(--ease-soft);
+
+  &:hover {
+    border-color: rgb(17 17 17 / 0.5);
+  }
+
+  &:focus {
+    border-color: var(--color-ink);
+    outline: 1px solid var(--color-ink);
+    outline-offset: 0;
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--color-error);
+  }
+}
+
+/* ——— Components ——— */
+
+@layer components {
+  /*
+   * Services index (homepage). On large screens every row's photo sits in one
+   * shared panel beside the list: the first row's photo shows by default and
+   * the hovered or keyboard-focused row's photo takes its place.
+   */
+  @media (width >= 64rem) {
+    .services-index__image {
+      opacity: 0;
+      transition: opacity 600ms var(--ease-soft);
+    }
+
+    .services-index > li:first-child .services-index__image {
+      opacity: 1;
+    }
+
+    .services-index:has(> li:is(:hover, :focus-within)) .services-index__image {
+      opacity: 0;
+    }
+
+    .services-index > li:is(:hover, :focus-within) .services-index__image {
+      opacity: 1;
+    }
+  }
+
+  /* The other rows step back while one is hovered. */
+  @media (width >= 64rem) and (hover: hover) {
+    .services-index:has(> li:hover) > li:not(:hover) .services-index__text {
+      opacity: 0.4;
+    }
+  }
+}
