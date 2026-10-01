@@ -3,6 +3,9 @@
 import { useActionState } from "react";
 
 import { login, type LoginState } from "@/app/admin/actions";
+import { adminText } from "@/i18n/admin";
+
+const text = adminText.login;
 
 const ERROR_ID = "login-error";
 
@@ -20,7 +23,7 @@ export function LoginForm({ next }: { next?: string }) {
       <div className="space-y-6">
         <div>
           <label htmlFor="email" className="text-label text-stone uppercase">
-            Email
+            {text.email}
           </label>
           <input
             id="email"
@@ -39,7 +42,7 @@ export function LoginForm({ next }: { next?: string }) {
         </div>
         <div>
           <label htmlFor="password" className="text-label text-stone uppercase">
-            Password
+            {text.password}
           </label>
           <input
             id="password"
@@ -67,7 +70,7 @@ export function LoginForm({ next }: { next?: string }) {
         disabled={pending}
         className="btn btn-primary mt-3 w-full"
       >
-        {pending ? "Signing in…" : "Sign in"}
+        {pending ? text.submitting : text.submit}
       </button>
     </form>
   );

@@ -41,6 +41,8 @@ type SiteHeaderProps = {
   locale: Locale;
   navigation: ReturnType<typeof getNavigation>;
   labels: HeaderLabels;
+  /** A thin bar above the navigation, e.g. the grand opening countdown. */
+  announcement?: ReactNode;
 };
 
 export function SiteHeader({
@@ -48,6 +50,7 @@ export function SiteHeader({
   locale,
   navigation,
   labels,
+  announcement,
 }: SiteHeaderProps) {
   const pathname = usePathname();
   const scrolled = useSyncExternalStore(
@@ -109,6 +112,7 @@ export function SiteHeader({
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
+      {announcement}
       <div
         className={cn(
           "relative z-10 border-b transition-[background-color,border-color,color] duration-500 ease-soft",

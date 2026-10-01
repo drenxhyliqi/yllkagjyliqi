@@ -97,7 +97,9 @@ export function FeaturedWork({ copy, locale, items }: FeaturedWorkProps) {
                     <h3 className="font-display text-[1.375rem] leading-snug">
                       {item.title}
                     </h3>
-                    <p className="eyebrow text-stone">{item.category.name}</p>
+                    {item.category && (
+                      <p className="eyebrow text-stone">{item.category.name}</p>
+                    )}
                   </div>
                 </Link>
               </li>

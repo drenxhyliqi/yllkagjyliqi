@@ -5,6 +5,7 @@ import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getBusinessInfo } from "@/lib/data/business";
 import { getLegalDocument, LEGAL_UPDATED } from "@/lib/legal";
 import { getNavigation, type LegalSlug } from "@/lib/navigation";
+import { pageMetadata } from "@/lib/seo";
 
 /** Shared by the privacy, cookies and terms routes. */
 export async function legalMetadata(slug: LegalSlug): Promise<Metadata> {
@@ -13,7 +14,10 @@ export async function legalMetadata(slug: LegalSlug): Promise<Metadata> {
     getBusinessInfo(),
   ]);
   const document = getLegalDocument(slug, locale, business);
-  return { title: document.title, description: document.description };
+  return pageMetadata(locale, `/${slug}`, {
+    title: document.title,
+    description: document.description,
+  });
 }
 
 export async function LegalRoute({ slug }: { slug: LegalSlug }) {

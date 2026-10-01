@@ -217,4 +217,15 @@ export const placeholderImages = {
     credit: "see plus",
     source: "https://unsplash.com/photos/a-woman-with-a-ponytail-is-posing-for-a-picture-k8AWNNCry-0",
   },
+  aboutBrushes: {
+    src: "https://images.unsplash.com/photo-1588534724279-d1012d1d08d1",
+    width: 3648,
+    height: 5472,
+    alt: {
+      en: "A hand holding a set of fine makeup brushes against soft cream fabric",
+      sq: "Një dorë që mban disa furça të holla make-up mbi një pëlhurë të butë krem",
+    },
+    credit: "Jonathan Borba",
+    source: "https://unsplash.com/photos/person-holding-paint-brush-and-brush-wHqPodClzqE",
+  },
 } satisfies Record<string, PlaceholderImage>;

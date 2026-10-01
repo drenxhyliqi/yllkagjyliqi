@@ -71,7 +71,7 @@ export function WorkGallery({ items, categories, copy }: WorkGalleryProps) {
     ...categories
       .map((category) => ({
         ...category,
-        count: items.filter((item) => item.category.slug === category.slug)
+        count: items.filter((item) => item.category?.slug === category.slug)
           .length,
       }))
       .filter((category) => category.count > 0),
@@ -79,7 +79,7 @@ export function WorkGallery({ items, categories, copy }: WorkGalleryProps) {
   const visible =
     active === ALL
       ? items
-      : items.filter((item) => item.category.slug === active);
+      : items.filter((item) => item.category?.slug === active);
 
   return (
     <div className="container-site pb-24 lg:pb-32">
@@ -133,7 +133,9 @@ export function WorkGallery({ items, categories, copy }: WorkGalleryProps) {
                 <h2 className="font-display text-[1.375rem] leading-snug">
                   {item.title}
                 </h2>
-                <p className="eyebrow text-stone">{item.category.name}</p>
+                {item.category && (
+                  <p className="eyebrow text-stone">{item.category.name}</p>
+                )}
               </div>
             </Link>
           </li>

@@ -100,3 +100,59 @@ def test_validation_errors_use_the_message_format(client: TestClient) -> None:
     response = client.post("/api/auth/login", json={"email": EMAIL})
     assert response.status_code == 422
     assert response.json()["message"].startswith("password:")
+
+
+def _sign_in(client, email: str, password: str) -> dict:
+    token = client.post("/api/auth/login", json={"email": email, "password": password}).json()["token"]
+    return {"Authorization": f"Bearer {token}"}
+
+
+def test_change_email(client, admin_headers) -> None:
+    wrong = client.put("/api/auth/me/email", json={"email": "yllka@example.test", "current_password": "nope"}, headers=admin_headers)
+    assert wrong.status_code == 403
+
+    changed = client.put(
+        "/api/auth/me/email",
+        json={"email": " Yllka@Example.test ", "current_password": "pw-for-tests"},
+        headers=admin_headers,
+    )
+    assert changed.status_code == 200
+    assert changed.json()["email"] == "yllka@example.test"
+    assert client.post("/api/auth/login", json={"email": "yllka@example.test", "password": "pw-for-tests"}).status_code == 200
+
+    bad = client.put("/api/auth/me/email", json={"email": "not-an-email", "current_password": "pw-for-tests"}, headers=admin_headers)
+    assert bad.status_code == 422
+
+
+def test_change_email_must_be_free(client, admin_headers, db) -> None:
+    from app.core.security import hash_password
+    from app.models import Admin
+
+    db.add(Admin(email="other@example.test", name="Other", password_hash=hash_password("x" * 12)))
+    db.commit()
+    taken = client.put(
+        "/api/auth/me/email",
+        json={"email": "other@example.test", "current_password": "pw-for-tests"},
+        headers=admin_headers,
+    )
+    assert taken.status_code == 409
+
+
+def test_change_password_signs_out_other_devices(client, admin_headers) -> None:
+    other_device = _sign_in(client, "owner@example.test", "pw-for-tests")
+
+    short = client.put("/api/auth/me/password", json={"current_password": "pw-for-tests", "new_password": "short"}, headers=admin_headers)
+    assert short.status_code == 422
+    wrong = client.put("/api/auth/me/password", json={"current_password": "nope", "new_password": "a-long-new-password"}, headers=admin_headers)
+    assert wrong.status_code == 403
+
+    changed = client.put(
+        "/api/auth/me/password",
+        json={"current_password": "pw-for-tests", "new_password": "a-long-new-password"},
+        headers=admin_headers,
+    )
+    assert changed.status_code == 204
+    # This device stays signed in; the other one is signed out.
+    assert client.get("/api/auth/me", headers=admin_headers).status_code == 200
+    assert client.get("/api/auth/me", headers=other_device).status_code == 401
+    assert client.post("/api/auth/login", json={"email": "owner@example.test", "password": "a-long-new-password"}).status_code == 200

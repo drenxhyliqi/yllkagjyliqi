@@ -11,6 +11,7 @@ import { isLocale, localizePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getPortfolio, getPortfolioItem } from "@/lib/data/portfolio";
 import { getNavigation } from "@/lib/navigation";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const locale = await localeParam();
@@ -22,9 +23,20 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/work/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const item = await getPortfolioItem(await getLocale(), slug);
+  const locale = await getLocale();
+  const item = await getPortfolioItem(locale, slug);
   if (!item) return {};
-  return { title: item.title, description: item.description ?? undefined };
+  const metadata = pageMetadata(locale, `/work/${slug}`, {
+    title: item.title,
+    description: item.description ?? undefined,
+  });
+  // The work's own photo when the link is shared.
+  const image = { url: item.cover.src, width: item.cover.width, height: item.cover.height, alt: item.cover.alt };
+  return {
+    ...metadata,
+    openGraph: { ...metadata.openGraph, images: [image] },
+    twitter: { ...metadata.twitter, images: [image.url] },
+  };
 }
 
 export default async function WorkItemPage({
@@ -45,11 +57,11 @@ export default async function WorkItemPage({
   const more = [
     ...items.filter(
       (other) =>
-        other.slug !== slug && other.category.slug === item.category.slug,
+        other.slug !== slug && other.category?.slug === item.category?.slug,
     ),
     ...items.filter(
       (other) =>
-        other.slug !== slug && other.category.slug !== item.category.slug,
+        other.slug !== slug && other.category?.slug !== item.category?.slug,
     ),
   ].slice(0, 3);
 
@@ -80,7 +92,9 @@ export default async function WorkItemPage({
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9 lg:pb-4">
-            <p className="eyebrow text-stone">{item.category.name}</p>
+            {item.category && (
+              <p className="eyebrow text-stone">{item.category.name}</p>
+            )}
             <h1 className="reveal-lines mt-6 text-display-lg">
               <RevealLines lines={[item.title]} />
             </h1>
@@ -97,6 +111,23 @@ export default async function WorkItemPage({
             </Link>
           </div>
         </div>
+
+        {item.images.length > 1 && (
+          <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:mt-8 lg:gap-8">
+            {item.images.slice(1).map((image) => (
+              <li key={image.src} className="reveal">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  sizes="(min-width: 40rem) 50vw, 100vw"
+                  className="h-auto w-full bg-sand"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {more.length > 0 && (
@@ -131,9 +162,11 @@ export default async function WorkItemPage({
                       <h3 className="font-display text-[1.375rem] leading-snug">
                         {other.title}
                       </h3>
-                      <p className="eyebrow text-stone">
-                        {other.category.name}
-                      </p>
+                      {other.category && (
+                        <p className="eyebrow text-stone">
+                          {other.category.name}
+                        </p>
+                      )}
                     </div>
                   </Link>
                 </li>

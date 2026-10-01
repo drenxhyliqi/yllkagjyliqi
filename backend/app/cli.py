@@ -1,7 +1,8 @@
 """
-Admin account management.
+Command-line tasks.
 
     python -m app.cli create-admin --email yllka@example.com --name "Yllka"
+    python -m app.cli seed-demo     # development only
 
 Prompts for the password. If the email already exists, its name and password
 are updated and every signed-in device is signed out.
@@ -73,9 +74,16 @@ def main() -> None:
         help="Read the password from this environment variable instead of prompting.",
     )
 
+    commands.add_parser("seed-demo", help="Load placeholder content (development only).")
+
     args = parser.parse_args()
     if args.command == "create-admin":
         create_admin(args.email, args.name, args.password_env)
+    elif args.command == "seed-demo":
+        from app.demo.seed import seed_demo
+
+        with SessionLocal() as db:
+            print(seed_demo(db))
 
 
 if __name__ == "__main__":

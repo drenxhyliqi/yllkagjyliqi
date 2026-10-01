@@ -1,0 +1,371 @@
+{
+  "_note": "DEMO DATA for development only. Placeholder services, prices and stock photos (Unsplash) - not Yllka's real content.",
+  "business": {
+    "business_name": "Yllka",
+    "phone": "+383 00 000 000",
+    "email": "hello@yllka.test",
+    "street": "Rruga Hajriz Morina",
+    "city": "Drenoc, Malishevë",
+    "maps_url": null,
+    "instagram": "yllkagjyliqi",
+    "facebook_url": "https://www.facebook.com/"
+  },
+  "categories": [
+    {
+      "slug": "hair",
+      "name_sq": "Flokë",
+      "name_en": "Hair",
+      "description_sq": "Stilim, fëno dhe flokë të mbledhura për çdo rast.",
+      "description_en": "Styling, blow-dries and updos for any occasion.",
+      "image": {
+        "url": "https://images.unsplash.com/photo-1672788725446-c303ec2b318e",
+        "width": 5472,
+        "height": 3648
+      },
+      "services": [
+        {
+          "slug": "blow-dry",
+          "name_sq": "Fëno",
+          "name_en": "Blow-dry",
+          "description_sq": "Përfundim i lëmuar dhe me volum për çdo gjatësi.",
+          "description_en": "Smooth, voluminous finish for any length.",
+          "price": 15,
+          "price_type": "fixed",
+          "duration_minutes": 45
+        },
+        {
+          "slug": "waves-and-curls",
+          "name_sq": "Valë dhe kaçurrela",
+          "name_en": "Waves & curls",
+          "description_sq": "Valë të buta ose kaçurrela të formuara që zgjasin gjithë ditën.",
+          "description_en": "Soft waves or defined curls that last through the day.",
+          "price": 20,
+          "price_type": "fixed",
+          "duration_minutes": 60
+        },
+        {
+          "slug": "updo",
+          "name_sq": "Flokë të mbledhura",
+          "name_en": "Updo",
+          "description_sq": "Topuze dhe modele gjysmë të mbledhura për evente.",
+          "description_en": "Chignons, buns and half-up styles for events.",
+          "price": 25,
+          "price_type": "from",
+          "duration_minutes": 75
+        },
+        {
+          "slug": "braids",
+          "name_sq": "Gërsheta",
+          "name_en": "Braids",
+          "description_sq": null,
+          "description_en": null,
+          "price": 20,
+          "price_type": "fixed",
+          "duration_minutes": 60
+        }
+      ]
+    },
+    {
+      "slug": "makeup",
+      "name_sq": "Make-up",
+      "name_en": "Makeup",
+      "description_sq": "Nga pamje të lehta ditore deri te make-up mbrëmjeje.",
+      "description_en": "From soft daytime looks to evening glamour.",
+      "image": {
+        "url": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2",
+        "width": 4088,
+        "height": 2725
+      },
+      "services": [
+        {
+          "slug": "day-makeup",
+          "name_sq": "Make-up ditor",
+          "name_en": "Day makeup",
+          "description_sq": "Lëkurë e freskët dhe natyrale, me theksim të butë.",
+          "description_en": "Fresh, natural skin and soft definition.",
+          "price": 25,
+          "price_type": "fixed",
+          "duration_minutes": 45
+        },
+        {
+          "slug": "evening-makeup",
+          "name_sq": "Make-up mbrëmjeje",
+          "name_en": "Evening makeup",
+          "description_sq": "Pamje më e theksuar për darka dhe festa.",
+          "description_en": "A more defined look for dinners and parties.",
+          "price": 35,
+          "price_type": "fixed",
+          "duration_minutes": 60
+        },
+        {
+          "slug": "event-makeup",
+          "name_sq": "Make-up për evente me qerpikë",
+          "name_en": "Event makeup with lashes",
+          "description_sq": null,
+          "description_en": null,
+          "price": 40,
+          "price_type": "fixed",
+          "duration_minutes": 75
+        }
+      ]
+    },
+    {
+      "slug": "bridal",
+      "name_sq": "Nuse",
+      "name_en": "Bridal",
+      "description_sq": "Flokë dhe make-up për ditën e dasmës suaj.",
+      "description_en": "Hair and makeup for your wedding day.",
+      "image": {
+        "url": "https://images.unsplash.com/photo-1643216583837-f6d664d48eac",
+        "width": 3948,
+        "height": 5922
+      },
+      "services": [
+        {
+          "slug": "bridal-makeup",
+          "name_sq": "Make-up nuseje",
+          "name_en": "Bridal makeup",
+          "description_sq": "Make-up që zgjat, i krijuar sipas fustanit dhe ditës suaj.",
+          "description_en": "Long-wearing makeup designed around your dress and day.",
+          "price": 80,
+          "price_type": "from",
+          "duration_minutes": 90
+        },
+        {
+          "slug": "bridal-hair",
+          "name_sq": "Flokë nuseje",
+          "name_en": "Bridal hair",
+          "description_sq": null,
+          "description_en": null,
+          "price": 70,
+          "price_type": "from",
+          "duration_minutes": 90
+        },
+        {
+          "slug": "bridal-hair-and-makeup",
+          "name_sq": "Flokë dhe make-up nuseje",
+          "name_en": "Bridal hair & makeup",
+          "description_sq": null,
+          "description_en": null,
+          "price": 140,
+          "price_type": "from",
+          "duration_minutes": 180
+        },
+        {
+          "slug": "bridal-trial",
+          "name_sq": "Seancë prove",
+          "name_en": "Trial session",
+          "description_sq": "Provoni pamjen para ditës dhe rregulloni detajet bashkë.",
+          "description_en": "Try the look before the day and adjust the details together.",
+          "price": 50,
+          "price_type": "fixed",
+          "duration_minutes": 120
+        }
+      ]
+    },
+    {
+      "slug": "other",
+      "name_sq": "Të tjera",
+      "name_en": "Other",
+      "description_sq": "Kërkesa të veçanta dhe shërbime të tjera.",
+      "description_en": "Special requests and services beyond the list.",
+      "image": {
+        "url": "https://images.unsplash.com/photo-1701271482230-5ecaec3cd3e1",
+        "width": 12992,
+        "height": 12992
+      },
+      "services": [
+        {
+          "slug": "lash-application",
+          "name_sq": "Vendosje qerpikësh",
+          "name_en": "Lash application",
+          "description_sq": null,
+          "description_en": null,
+          "price": 10,
+          "price_type": "fixed",
+          "duration_minutes": 15
+        },
+        {
+          "slug": "group-bookings",
+          "name_sq": "Rezervime për grupe",
+          "name_en": "Group bookings",
+          "description_sq": "Shoqëruese të nuses, familje dhe evente. Na kontaktoni për ofertë.",
+          "description_en": "Bridesmaids, families and events. Get in touch for a quote.",
+          "price": null,
+          "price_type": "on_request",
+          "duration_minutes": null
+        }
+      ]
+    }
+  ],
+  "portfolio": [
+    {
+      "slug": "bridal-hair-vine",
+      "title_sq": "Flokë nuseje me aksesor kristali",
+      "title_en": "Bridal updo with a hair vine",
+      "description_sq": "Flokë të mbledhura ulët, me tekstura, të përfunduara me aksesor kristali, që qëndrojnë rehat nën vello gjithë ditën.",
+      "description_en": "A low, textured updo finished with a crystal vine, made to sit comfortably under the veil all day.",
+      "category": "bridal",
+      "is_featured": true,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1629326017926-9cad9c909196",
+        "width": 3648,
+        "height": 5472
+      }
+    },
+    {
+      "slug": "bronze-glam",
+      "title_sq": "Glam në tone bronzi",
+      "title_en": "Warm bronze glam",
+      "description_sq": "Tone të ngrohta bronzi në sy, lëkurë me shkëlqim dhe buzë me shkëlqim për një event mbrëmjeje.",
+      "description_en": "Warm bronze tones on the eyes, glowing skin and a glossy lip for an evening event.",
+      "category": "makeup",
+      "is_featured": true,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1742341946710-90a31be67a41",
+        "width": 2160,
+        "height": 2700
+      }
+    },
+    {
+      "slug": "floral-chignon",
+      "title_sq": "Topuz i ulët me aksesor me lule",
+      "title_en": "Low chignon with a floral pin",
+      "description_sq": "Topuz i butë e i ulët, me fije të lira rreth fytyrës dhe një aksesor me lule të bardha.",
+      "description_en": "A soft, low chignon with loose face-framing strands and a white floral pin.",
+      "category": "hair",
+      "is_featured": true,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1610653093036-884c3f867fe3",
+        "width": 4480,
+        "height": 6720
+      }
+    },
+    {
+      "slug": "classic-red-lip",
+      "title_sq": "Buzë të kuqe klasike",
+      "title_en": "Classic red lip",
+      "description_sq": "Qerpikë të theksuar, lëkurë e njëtrajtshme dhe buzë të kuqe klasike që qëndrojnë.",
+      "description_en": "Defined lashes, even skin and a classic red lip that stays put.",
+      "category": "makeup",
+      "is_featured": true,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1618835962148-cf177563c6c0",
+        "width": 3304,
+        "height": 4129
+      }
+    },
+    {
+      "slug": "glossy-waves",
+      "title_sq": "Valë të buta me shkëlqim",
+      "title_en": "Glossy, soft waves",
+      "description_sq": "Flokë të gjata me valë të lira e me shkëlqim, plot lëvizje.",
+      "description_en": "Long hair set in loose, glossy waves with plenty of movement.",
+      "category": "hair",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1564141696939-9eb6e957ccfc",
+        "width": 3000,
+        "height": 1850
+      }
+    },
+    {
+      "slug": "veil-and-tiara",
+      "title_sq": "Vello dhe diademë",
+      "title_en": "Veil and tiara",
+      "description_sq": "Make-up nuseje i butë dhe i ndritshëm, me diademë delikate dhe vello të gjatë.",
+      "description_en": "Soft, luminous bridal makeup with a delicate tiara and a long veil.",
+      "category": "bridal",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1599029575302-290d8f461dc9",
+        "width": 3648,
+        "height": 5472
+      }
+    },
+    {
+      "slug": "natural-skin",
+      "title_sq": "Lëkurë e freskët, natyrale",
+      "title_en": "Fresh, natural skin",
+      "description_sq": "Mbulim i lehtë, vetulla të theksuara butë dhe përfundim i freskët.",
+      "description_en": "Light coverage, softly defined brows and a fresh finish.",
+      "category": "makeup",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1674932668403-33398b81c92f",
+        "width": 5504,
+        "height": 8256
+      }
+    },
+    {
+      "slug": "textured-chignon",
+      "title_sq": "Topuz i butë me tekstura",
+      "title_en": "Soft textured chignon",
+      "description_sq": "Topuz i lirë dhe romantik për ditën e dasmës, i parë nga prapa.",
+      "description_en": "A loose, romantic chignon for the wedding day, seen from behind.",
+      "category": "bridal",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1742569181882-f5f05293e00f",
+        "width": 4160,
+        "height": 6240
+      }
+    },
+    {
+      "slug": "copper-braid",
+      "title_sq": "Gërshet në flokë ngjyrë bakri",
+      "title_en": "Copper half-up braid",
+      "description_sq": "Gërshet gjysmë i mbledhur që i lë flokët e lirë, i përfunduar me një lule të vogël.",
+      "description_en": "A half-up braid that keeps the length free, finished with a small flower.",
+      "category": "hair",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1573516193421-e587039fb189",
+        "width": 3648,
+        "height": 5472
+      }
+    },
+    {
+      "slug": "pearl-updo",
+      "title_sq": "Flokë të mbledhura me perla",
+      "title_en": "Low updo with pearls",
+      "description_sq": "Flokë të mbledhura ulët, të rregullta, me një aksesor me perla dhe kristale.",
+      "description_en": "A neat, low updo finished with a pearl and crystal hair piece.",
+      "category": "bridal",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1782776852521-77b0aed8831d",
+        "width": 3640,
+        "height": 3244
+      }
+    },
+    {
+      "slug": "soft-minimal",
+      "title_sq": "Make-up i lehtë, minimal",
+      "title_en": "Soft, minimal makeup",
+      "description_sq": "Make-up pothuajse i padukshëm dhe topuz i ulët e i lëmuar për një pamje të pastër e moderne.",
+      "description_en": "Barely-there makeup and a sleek low bun for a clean, modern look.",
+      "category": "makeup",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1643932919088-53349a7c3385",
+        "width": 8272,
+        "height": 10538
+      }
+    },
+    {
+      "slug": "auburn-twist",
+      "title_sq": "Flokë gështenjë me përdredhje",
+      "title_en": "Auburn twisted half-up",
+      "description_sq": "Valë ngjyrë gështenjë të mbledhura nga anët në një nyjë të butë me përdredhje.",
+      "description_en": "Auburn waves pulled back from the sides into a soft twisted knot.",
+      "category": "hair",
+      "is_featured": false,
+      "image": {
+        "url": "https://images.unsplash.com/photo-1614020863825-28a0bb7e3c3c",
+        "width": 3376,
+        "height": 6000
+      }
+    }
+  ]
+}

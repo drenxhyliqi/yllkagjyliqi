@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { RevealLines } from "@/components/ui/reveal-lines";
 import type { Locale } from "@/i18n/config";
+import { formatFullDate } from "@/lib/dates";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { LegalBlock, LegalDocument } from "@/lib/legal/types";
 import type { LegalSlug, NavItem } from "@/lib/navigation";
@@ -83,12 +84,8 @@ export function LegalPage({
   links,
   copy,
 }: LegalPageProps) {
-  const updatedLabel = new Intl.DateTimeFormat(locale, {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(updated));
+  const [year, month, day] = updated.split("-").map(Number);
+  const updatedLabel = formatFullDate(new Date(year, month - 1, day), locale);
 
   return (
     <article className="container-site section-y">

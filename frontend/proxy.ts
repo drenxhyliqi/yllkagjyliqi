@@ -31,9 +31,15 @@ export function proxy(request: NextRequest) {
  * Optimistic check only: a missing cookie goes straight to the login page.
  * The session itself is verified by the API on every admin request.
  */
+/** Admin pages for people who aren't signed in (yet). */
+const PUBLIC_ADMIN = [ADMIN_LOGIN, "/admin/forgot-password", "/admin/reset-password/"];
+
 function guardAdmin(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (pathname === ADMIN_LOGIN || request.cookies.has(SESSION_COOKIE)) {
+  const open = PUBLIC_ADMIN.some((path) =>
+    path.endsWith("/") ? pathname.startsWith(path) : pathname === path,
+  );
+  if (open || request.cookies.has(SESSION_COOKIE)) {
     return NextResponse.next();
   }
   const url = new URL(ADMIN_LOGIN, request.url);

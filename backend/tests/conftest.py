@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from sqlalchemy.engine import make_url
 
@@ -10,6 +11,8 @@ os.environ["DATABASE_URL"] = _url.set(database=f"{_url.database}_test").render_a
     hide_password=False
 )
 os.environ["ENVIRONMENT"] = "test"
+# Uploaded test photos go to a throwaway folder.
+os.environ["MEDIA_ROOT"] = tempfile.mkdtemp(prefix="yllka-media-")
 
 from collections.abc import Iterator  # noqa: E402
 
@@ -20,7 +23,6 @@ from sqlalchemy.orm import Session  # noqa: E402
 import app.models  # noqa: E402, F401
 from app.core.database import Base, SessionLocal, engine  # noqa: E402
 from app.main import app  # noqa: E402
-from app.services.auth_service import login_throttle  # noqa: E402
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -37,7 +39,6 @@ def clean_tables() -> Iterator[None]:
     with engine.begin() as connection:
         for table in reversed(Base.metadata.sorted_tables):
             connection.execute(table.delete())
-    login_throttle._failures.clear()
 
 
 @pytest.fixture
@@ -49,3 +50,18 @@ def db() -> Iterator[Session]:
 @pytest.fixture
 def client() -> TestClient:
     return TestClient(app)
+
+
+@pytest.fixture
+def admin_headers(client: TestClient, db: Session) -> dict[str, str]:
+    """A signed-in admin's Authorization header."""
+    from app.core.security import hash_password
+    from app.models import Admin
+
+    db.add(Admin(email="owner@example.test", name="Owner", password_hash=hash_password("pw-for-tests")))
+    db.commit()
+    token = client.post(
+        "/api/auth/login", json={"email": "owner@example.test", "password": "pw-for-tests"}
+    ).json()["token"]
+    return {"Authorization": f"Bearer {token}"}
+

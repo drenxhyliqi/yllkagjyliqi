@@ -13,6 +13,8 @@ type ServiceCategoryProps = {
   locale: Locale;
   pricing: Dictionary["pricing"];
   bookLabel: string;
+  /** The first category is on screen right away: load its photo first. */
+  first?: boolean;
 };
 
 /*
@@ -25,6 +27,7 @@ export function ServiceCategory({
   locale,
   pricing,
   bookLabel,
+  first = false,
 }: ServiceCategoryProps) {
   const titleId = `${category.slug}-title`;
 
@@ -43,6 +46,7 @@ export function ServiceCategory({
                   src={category.image.src}
                   alt={category.image.alt}
                   fill
+                  preload={first}
                   sizes="(min-width: 64rem) 30vw, 100vw"
                   style={{ objectPosition: category.image.focalPoint }}
                   className="object-cover"

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="sq" className={fontVariables}>
       <body>{children}</body>
     </html>
   );

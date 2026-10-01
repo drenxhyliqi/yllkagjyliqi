@@ -1,15 +1,16 @@
 import "server-only";
 
 import type { Locale } from "@/i18n/config";
-import { getDemoCategories } from "@/lib/demo/categories";
+import { getServiceCatalog } from "@/lib/data/services";
 import type { Category } from "@/types/category";
 
-/**
- * Active service categories, in display order.
- *
- * Returns demo data for now. When the categories API exists this becomes an
- * `apiFetch` call; callers and components stay the same.
- */
+/** Active service categories, in display order. */
 export async function getCategories(locale: Locale): Promise<Category[]> {
-  return getDemoCategories(locale);
+  return (await getServiceCatalog(locale)).map((category) => ({
+    id: category.id,
+    slug: category.slug,
+    name: category.name,
+    description: category.description,
+    image: category.image,
+  }));
 }

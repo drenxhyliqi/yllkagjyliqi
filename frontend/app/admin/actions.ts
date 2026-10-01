@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { adminText } from "@/i18n/admin";
 import { ApiError, apiFetch } from "@/lib/api";
 import { SESSION_COOKIE } from "@/lib/session-cookie";
 import type { LoginResponse } from "@/types/admin";
@@ -18,7 +19,7 @@ export async function login(_previous: LoginState, formData: FormData): Promise<
   const next = String(formData.get("next") ?? "");
 
   if (!email || !password) {
-    return { message: "Please enter your email and password.", email };
+    return { message: adminText.login.missing, email };
   }
 
   let result: LoginResponse;
@@ -28,14 +29,13 @@ export async function login(_previous: LoginState, formData: FormData): Promise<
       json: { email, password },
     });
   } catch (error) {
-    // 401 and 429 carry messages written for people; anything else stays generic.
-    if (error instanceof ApiError && (error.status === 401 || error.status === 429)) {
-      return { message: error.message, email };
-    }
-    return {
-      message: "We couldn't sign you in right now. Please try again in a moment.",
-      email,
-    };
+    const message =
+      error instanceof ApiError && error.status === 401
+        ? adminText.login.invalid
+        : error instanceof ApiError && error.status === 429
+          ? adminText.login.tooMany
+          : adminText.login.unavailable;
+    return { message, email };
   }
 
   (await cookies()).set(SESSION_COOKIE, result.token, {

@@ -8,10 +8,14 @@ import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getCategories } from "@/lib/data/categories";
 import { getPortfolio } from "@/lib/data/portfolio";
 import { getNavigation } from "@/lib/navigation";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { workPage } = await getDictionary();
-  return { title: workPage.title, description: workPage.description };
+  return pageMetadata(await getLocale(), "/work", {
+    title: workPage.title,
+    description: workPage.description,
+  });
 }
 
 export default async function WorkPage() {
