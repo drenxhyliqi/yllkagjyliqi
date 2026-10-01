@@ -73,6 +73,7 @@ export function ServicesPreview({
                       alt={category.image.alt}
                       fill
                       sizes="(min-width: 64rem) 36vw, (min-width: 40rem) 6.5rem, 5rem"
+                      style={{ objectPosition: category.image.focalPoint }}
                       className="object-cover"
                     />
                   </div>

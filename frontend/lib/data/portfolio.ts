@@ -10,6 +10,8 @@ import type { PortfolioItem } from "@/types/portfolio";
  * Returns demo data for now. When the portfolio API exists this becomes an
  * `apiFetch` call; callers and components stay the same.
  */
-export async function getFeaturedWork(locale: Locale): Promise<PortfolioItem[]> {
+export async function getFeaturedWork(
+  locale: Locale,
+): Promise<PortfolioItem[]> {
   return getDemoFeaturedWork(locale);
 }

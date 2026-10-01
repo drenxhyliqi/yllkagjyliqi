@@ -1,5 +1,8 @@
 import type { Locale } from "@/i18n/config";
-import { placeholderImages, type PlaceholderImage } from "@/lib/placeholder-images";
+import {
+  placeholderImages,
+  type PlaceholderImage,
+} from "@/lib/placeholder-images";
 import type { PortfolioItem } from "@/types/portfolio";
 
 /*
@@ -23,7 +26,10 @@ const hair = { slug: "hair", name: { en: "Hair", sq: "Flokë" } };
 const featuredItems: DemoItem[] = [
   {
     slug: "bridal-hair-vine",
-    title: { en: "Bridal updo with a hair vine", sq: "Flokë nuseje me aksesor kristali" },
+    title: {
+      en: "Bridal updo with a hair vine",
+      sq: "Flokë nuseje me aksesor kristali",
+    },
     category: bridal,
     image: placeholderImages.workBridalVine,
     focalPoint: "50% 30%",
@@ -36,7 +42,10 @@ const featuredItems: DemoItem[] = [
   },
   {
     slug: "floral-chignon",
-    title: { en: "Low chignon with a floral pin", sq: "Topuz i ulët me aksesor me lule" },
+    title: {
+      en: "Low chignon with a floral pin",
+      sq: "Topuz i ulët me aksesor me lule",
+    },
     category: hair,
     image: placeholderImages.workFloralChignon,
     focalPoint: "50% 35%",

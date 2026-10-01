@@ -1,5 +1,8 @@
 import type { Locale } from "@/i18n/config";
-import { placeholderImages, type PlaceholderImage } from "@/lib/placeholder-images";
+import {
+  placeholderImages,
+  type PlaceholderImage,
+} from "@/lib/placeholder-images";
 import type { Category } from "@/types/category";
 
 /*
@@ -13,6 +16,7 @@ type DemoCategory = {
   name: Record<Locale, string>;
   description: Record<Locale, string>;
   image: PlaceholderImage;
+  focalPoint?: string;
 };
 
 const demoCategories: DemoCategory[] = [
@@ -42,6 +46,7 @@ const demoCategories: DemoCategory[] = [
       sq: "Flokë dhe make-up për ditën e dasmës suaj.",
     },
     image: placeholderImages.categoryBridal,
+    focalPoint: "50% 25%",
   },
   {
     slug: "other",
@@ -60,6 +65,10 @@ export function getDemoCategories(locale: Locale): Category[] {
     slug: category.slug,
     name: category.name[locale],
     description: category.description[locale],
-    image: { src: category.image.src, alt: category.image.alt[locale] },
+    image: {
+      src: category.image.src,
+      alt: category.image.alt[locale],
+      focalPoint: category.focalPoint,
+    },
   }));
 }
