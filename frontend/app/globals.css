@@ -602,4 +602,13 @@
       opacity: 1;
     }
   }
+
+  /* ——— Work gallery ———
+   * Items fade up when they mount (page load and every filter change),
+   * staggered by --i and capped so long lists do not drag.
+   */
+  .gallery-item {
+    animation: fade-up 0.8s var(--ease-soft) both;
+    animation-delay: calc(min(var(--i, 0), 8) * 70ms);
+  }
 }

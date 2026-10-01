@@ -9,5 +9,6 @@ export type PortfolioItem = {
     slug: string;
     name: string;
   };
+  description: string | null;
   cover: ImageAsset;
 };

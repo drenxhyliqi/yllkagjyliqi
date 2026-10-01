@@ -173,4 +173,48 @@ export const placeholderImages = {
     credit: "Brock Wegner",
     source: "https://unsplash.com/photos/woman-with-white-flower-on-her-hair-MXWmzSnmIMo",
   },
+  workGlossyWaves: {
+    src: "https://images.unsplash.com/photo-1564141696939-9eb6e957ccfc",
+    width: 3000,
+    height: 1850,
+    alt: {
+      en: "Long, glossy dark hair styled in soft waves",
+      sq: "Flokë të gjata e të errëta me shkëlqim, të stilizuara me valë të buta",
+    },
+    credit: "Ali Pazani",
+    source: "https://unsplash.com/photos/topless-woman-with-eyes-closed-3w14X-Yxffk",
+  },
+  workCopperBraid: {
+    src: "https://images.unsplash.com/photo-1573516193421-e587039fb189",
+    width: 3648,
+    height: 5472,
+    alt: {
+      en: "Copper hair in a half-up braid with a small flower",
+      sq: "Flokë ngjyrë bakri me gërshet gjysmë të mbledhur dhe një lule të vogël",
+    },
+    credit: "lucas mendes",
+    source: "https://unsplash.com/photos/womens-red-hair-p5MaMz7rxYU",
+  },
+  workBridalTiara: {
+    src: "https://images.unsplash.com/photo-1599029575302-290d8f461dc9",
+    width: 3648,
+    height: 5472,
+    alt: {
+      en: "A smiling bride with soft makeup, a tiara and a veil",
+      sq: "Një nuse e buzëqeshur me make-up të butë, diademë dhe vello",
+    },
+    credit: "Jonathan Borba",
+    source: "https://unsplash.com/photos/woman-in-white-floral-lace-dress-oGQOxDRpZfg",
+  },
+  workSoftMinimal: {
+    src: "https://images.unsplash.com/photo-1643932919088-53349a7c3385",
+    width: 8272,
+    height: 10538,
+    alt: {
+      en: "Soft, minimal makeup with a sleek low bun",
+      sq: "Make-up i lehtë dhe minimal me topuz të ulët e të lëmuar",
+    },
+    credit: "see plus",
+    source: "https://unsplash.com/photos/a-woman-with-a-ponytail-is-posing-for-a-picture-k8AWNNCry-0",
+  },
 } satisfies Record<string, PlaceholderImage>;

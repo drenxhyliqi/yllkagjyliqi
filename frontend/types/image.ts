@@ -4,4 +4,7 @@ export type ImageAsset = {
   alt: string;
   /** CSS object-position for tight crops, e.g. "50% 30%". Defaults to centre. */
   focalPoint?: string;
+  /** Intrinsic size, when known; lets galleries keep each photo's shape. */
+  width?: number;
+  height?: number;
 };
