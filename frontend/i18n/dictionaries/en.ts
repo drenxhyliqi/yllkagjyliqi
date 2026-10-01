@@ -6,6 +6,9 @@ export const en = {
   common: {
     skipToContent: "Skip to content",
     bookAppointment: "Book an appointment",
+    backToTop: "Back to top",
+    instagram: "Yllka on Instagram",
+    facebook: "Yllka on Facebook",
   },
   nav: {
     home: "Home",
@@ -33,6 +36,7 @@ export const en = {
       titleEnd: "made for you.",
       text: "Every look begins with a conversation.",
       secondaryCta: "View work",
+      scroll: "Discover",
     },
     // PLACEHOLDER copy: to be replaced with Yllka's own words.
     intro: {
@@ -48,6 +52,69 @@ export const en = {
       titleEmphasis: "to begin?",
       text: "Explore the services, see the prices and book a time that suits you.",
       link: "All services",
+    },
+    work: {
+      eyebrow: "Selected work",
+      titleStart: "A few recent",
+      titleEmphasis: "favourites.",
+      text: "Hair and makeup for weddings, evenings out and everyday occasions.",
+      link: "View all work",
+    },
+    // PLACEHOLDER copy: to be replaced with Yllka's own words.
+    approach: {
+      eyebrow: "How I work",
+      titleStart: "Time, care and",
+      titleEmphasis: "an eye for detail.",
+      steps: [
+        {
+          title: "A conversation first",
+          text: "We talk through the occasion, your outfit and the look you have in mind before we begin.",
+        },
+        {
+          title: "Made for you",
+          text: "Hair and makeup chosen for your features and your style, never a one-size-fits-all look.",
+        },
+        {
+          title: "Made to last",
+          text: "Finished to stay in place from the first photo to the end of the evening.",
+        },
+      ],
+    },
+    bookingCta: {
+      eyebrow: "Appointments",
+      titleStart: "Ready for your",
+      titleEmphasis: "next look?",
+      text: "Choose a service and a time that suits you. I'll take care of the rest.",
+      contactPrompt: "Questions first?",
+      contactLink: "Get in touch",
+    },
+  },
+  footer: {
+    tagline: "Hair & Makeup",
+    explore: "Explore",
+    contact: "Contact",
+    hours: "Opening hours",
+    closed: "Closed",
+    directions: "Get directions",
+    rights: "All rights reserved.",
+    legalNav: "Legal",
+    cookieSettings: "Cookie settings",
+    siteBy: "Site by",
+  },
+  consent: {
+    title: "Cookies",
+    text: "This site uses a few essential cookies to work, such as remembering your language. With your permission, we may also use cookies to understand how the site is used.",
+    policyLink: "Cookie Policy",
+    accept: "Accept",
+    necessary: "Necessary only",
+  },
+  legal: {
+    eyebrow: "Legal",
+    updated: "Last updated",
+    titles: {
+      privacy: "Privacy Policy",
+      cookies: "Cookie Policy",
+      terms: "Terms of Use",
     },
   },
   notFound: {

@@ -15,7 +15,10 @@ export function ArrowLink({ href, children, className }: ArrowLinkProps) {
   return (
     <Link
       href={href}
-      className={cn("group inline-flex items-center gap-3 text-label uppercase", className)}
+      className={cn(
+        "group inline-flex items-center gap-3 text-label uppercase",
+        className,
+      )}
     >
       <span className="link-line [--line-trim:0.16em] group-hover:[background-size:calc(100%-0.16em)_1px]">
         {children}

@@ -45,7 +45,7 @@ export function MobileMenu({
         )}
       >
         <nav aria-label={labels.mainNav}>
-          <ul>
+          <ul className="nav-list">
             {items.map((item) => {
               const active = isActivePath(pathname, item);
               return (
@@ -54,7 +54,7 @@ export function MobileMenu({
                     href={item.href}
                     onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
-                    className="-mx-1 block px-1 py-1.5 font-display text-[clamp(2.375rem,1.6rem+4vw,3.25rem)] leading-[1.15] aria-[current=page]:italic"
+                    className="nav-current py-1.5 font-display text-[clamp(2.375rem,1.6rem+4vw,3.25rem)] leading-[1.15] [--marker-gap:1.125rem] [--marker-width:2rem]"
                   >
                     {item.label}
                   </Link>

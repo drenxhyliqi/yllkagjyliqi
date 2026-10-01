@@ -1,5 +1,6 @@
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { Logo } from "@/components/ui/logo";
+import { RevealLines } from "@/components/ui/reveal-lines";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 
 type IntroductionProps = {
@@ -14,16 +15,19 @@ type IntroductionProps = {
  */
 export function Introduction({ copy, aboutHref }: IntroductionProps) {
   return (
-    <section aria-labelledby="intro-title" className="section-y">
+    <section id="intro" aria-labelledby="intro-title" className="section-y">
       <div className="container-site">
         <div className="grid gap-y-8 border-t border-line pt-8 lg:grid-cols-12 lg:gap-x-8 lg:pt-12">
           <p className="eyebrow text-stone lg:col-span-3">{copy.eyebrow}</p>
 
           <div className="lg:col-span-9">
-            <h2 id="intro-title" className="reveal text-display-lg">
-              {copy.titleStart}
-              <br />
-              <em>{copy.titleEmphasis}</em>
+            <h2 id="intro-title" className="reveal-lines text-display-lg">
+              <RevealLines
+                lines={[
+                  copy.titleStart,
+                  <em key="emphasis">{copy.titleEmphasis}</em>,
+                ]}
+              />
             </h2>
 
             <div className="reveal mt-10 md:pl-[30%] lg:mt-16 lg:grid lg:grid-cols-9 lg:gap-x-8 lg:pl-0">
