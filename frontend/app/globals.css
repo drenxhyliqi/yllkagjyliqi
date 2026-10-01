@@ -640,3 +640,23 @@
     text-transform: uppercase;
   }
 }
+
+/*
+ * Date and time fields: iPhone Safari gives them a built-in minimum width and
+ * centred text, which pushes two-column forms wider than the screen. Let them
+ * shrink to their column and line up like every other field.
+ */
+@layer base {
+  input[type="date"],
+  input[type="time"] {
+    min-width: 0;
+    max-width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="date"]::-webkit-date-and-time-value,
+  input[type="time"]::-webkit-date-and-time-value {
+    margin: 0;
+    text-align: left;
+  }
+}

@@ -33,7 +33,7 @@ function AddDayOffForm({ today }: { today: string }) {
 
   return (
     <form key={formKey} action={formAction} className="bg-cream/60 p-5 sm:p-6">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3">
         <label className="block">
           <span className="text-label text-stone uppercase">{text.from}</span>
           <input
@@ -59,7 +59,7 @@ function AddDayOffForm({ today }: { today: string }) {
             className="input mt-1.5 bg-paper tabular-nums"
           />
         </label>
-        <p id="ends-on-hint" className="col-span-2 text-small text-stone">
+        <p id="ends-on-hint" className="-mt-2 text-small text-stone sm:col-span-2 sm:mt-0">
           {text.toHint}
         </p>
       </div>

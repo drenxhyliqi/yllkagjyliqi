@@ -140,7 +140,7 @@ export function NewBookingForm({
         )}
       </fieldset>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-6 min-[400px]:grid-cols-2 min-[400px]:gap-3">
         <TextField label={text.date} name="date" type="date" defaultValue={today} required error={errorFor("date")} />
         <TextField label={text.time} name="time" type="time" step={300} defaultValue="10:00" required error={errorFor("time")} />
       </div>

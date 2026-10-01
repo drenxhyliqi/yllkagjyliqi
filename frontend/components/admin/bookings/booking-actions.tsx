@@ -237,7 +237,7 @@ function ReschedulePanel({
 
   return (
     <form action={formAction} className="space-y-5 bg-cream/60 p-5">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2 min-[400px]:gap-3">
         <label className="block">
           <span className="text-label text-stone uppercase">{text.newDate}</span>
           <input
