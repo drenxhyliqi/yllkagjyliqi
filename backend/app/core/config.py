@@ -1,3 +1,4 @@
+import logging
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -43,6 +44,15 @@ class Settings(BaseSettings):
     # Error monitoring (sentry.io). Off when empty.
     sentry_dsn: str | None = None
 
+    @field_validator("database_url")
+    @classmethod
+    def use_psycopg(cls, value: str) -> str:
+        """Hosts such as Railway give "postgresql://…"; SQLAlchemy needs the driver named."""
+        for prefix in ("postgres://", "postgresql://"):
+            if value.startswith(prefix):
+                return "postgresql+psycopg://" + value.removeprefix(prefix)
+        return value
+
     @field_validator("business_timezone")
     @classmethod
     def validate_timezone(cls, value: str) -> str:
@@ -51,6 +61,16 @@ class Settings(BaseSettings):
         except ZoneInfoNotFoundError as exc:
             raise ValueError(f"Unknown timezone: {value}") from exc
         return value
+
+    @model_validator(mode="after")
+    def production_storage(self) -> "Settings":
+        if self.is_production and self.image_provider == "local":
+            # Hosts like Railway wipe the disk on every deploy: uploads would vanish.
+            logging.getLogger(__name__).warning(
+                "IMAGE_PROVIDER=local in production: uploaded photos are lost on redeploy. "
+                "Use IMAGE_PROVIDER=cloudinary."
+            )
+        return self
 
     @model_validator(mode="after")
     def cloudinary_complete(self) -> "Settings":
