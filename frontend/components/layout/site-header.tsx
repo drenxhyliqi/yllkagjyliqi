@@ -43,7 +43,12 @@ type SiteHeaderProps = {
   labels: HeaderLabels;
 };
 
-export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps) {
+export function SiteHeader({
+  logo,
+  locale,
+  navigation,
+  labels,
+}: SiteHeaderProps) {
   const pathname = usePathname();
   const scrolled = useSyncExternalStore(
     subscribeToScroll,
@@ -60,6 +65,10 @@ export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps
     setMenuPathname(pathname);
     setMenuOpen(false);
   }
+
+  // The homepage opens on a dark full-bleed photograph: until the visitor
+  // scrolls, the header floats over it with light text and no background.
+  const overlay = pathname === navigation.home && !scrolled && !menuOpen;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -102,18 +111,21 @@ export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps
     <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
       <div
         className={cn(
-          "relative z-10 border-b text-ink transition-[background-color,border-color] duration-500 ease-soft",
-          // Always opaque, so content never shows through mid-transition.
+          "relative z-10 border-b transition-[background-color,border-color,color] duration-500 ease-soft",
+          // Opaque everywhere except over the hero, so page content never
+          // shows through mid-transition.
           menuOpen
-            ? "border-transparent bg-sand"
-            : scrolled
-              ? "border-line bg-paper"
-              : "border-transparent bg-paper",
+            ? "border-transparent bg-sand text-ink"
+            : overlay
+              ? "border-transparent bg-transparent text-paper"
+              : scrolled
+                ? "border-line bg-paper text-ink"
+                : "border-transparent bg-paper text-ink",
         )}
       >
         <div
           className={cn(
-            "container-site grid h-18 grid-cols-[1fr_auto] items-center gap-6 transition-[height] duration-500 ease-soft lg:grid-cols-[1fr_auto_1fr]",
+            "container-site grid h-18 grid-cols-[1fr_auto] items-center gap-6 transition-[height] duration-500 ease-soft lg:flex lg:justify-between",
             scrolled ? "lg:h-18" : "lg:h-22",
           )}
         >
@@ -132,8 +144,9 @@ export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps
             </span>
           </Link>
 
+          {/* justify-between leaves equal space either side of the links. */}
           <nav aria-label={labels.mainNav} className="hidden lg:block">
-            <ul className="flex items-center gap-7 xl:gap-12">
+            <ul className="flex items-center gap-6 xl:gap-10">
               {navigation.primary.map((item) => {
                 const active = isActivePath(pathname, item);
                 return (
@@ -151,7 +164,7 @@ export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4 justify-self-end sm:gap-6 lg:gap-4 xl:gap-7">
+          <div className="flex items-center gap-4 justify-self-end sm:gap-6 lg:gap-3 xl:gap-5">
             <LanguageSwitcher
               locale={locale}
               label={labels.language}
@@ -169,7 +182,8 @@ export function SiteHeader({ logo, locale, navigation, labels }: SiteHeaderProps
               href={navigation.booking}
               aria-label={labels.book}
               className={cn(
-                "btn btn-outline btn-sm",
+                "btn btn-sm",
+                overlay ? "btn-light" : "btn-outline",
                 menuOpen && "invisible opacity-0",
               )}
             >

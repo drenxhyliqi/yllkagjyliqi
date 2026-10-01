@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { ArrowRightIcon } from "@/components/ui/icons";
+import { RevealLines } from "@/components/ui/reveal-lines";
 import { localizePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Category } from "@/types/category";
@@ -19,7 +20,11 @@ type ServicesPreviewProps = {
  * share one panel beside the list and change as rows are hovered or focused
  * (see .services-index in globals.css — no JavaScript involved).
  */
-export function ServicesPreview({ copy, locale, categories }: ServicesPreviewProps) {
+export function ServicesPreview({
+  copy,
+  locale,
+  categories,
+}: ServicesPreviewProps) {
   if (categories.length === 0) return null;
 
   return (
@@ -28,15 +33,24 @@ export function ServicesPreview({ copy, locale, categories }: ServicesPreviewPro
         <div className="grid gap-y-8 lg:grid-cols-12 lg:items-end lg:gap-x-8">
           <div className="lg:col-span-7">
             <p className="eyebrow text-stone">{copy.eyebrow}</p>
-            <h2 id="services-title" className="reveal mt-6 text-display-lg">
-              {copy.titleStart}
-              <br />
-              <em>{copy.titleEmphasis}</em>
+            <h2
+              id="services-title"
+              className="reveal-lines mt-6 text-display-lg"
+            >
+              <RevealLines
+                lines={[
+                  copy.titleStart,
+                  <em key="emphasis">{copy.titleEmphasis}</em>,
+                ]}
+              />
             </h2>
           </div>
           <div className="reveal lg:col-span-4 lg:col-start-9">
             <p className="max-w-sm text-stone">{copy.text}</p>
-            <ArrowLink href={localizePath(locale, "/services")} className="mt-6">
+            <ArrowLink
+              href={localizePath(locale, "/services")}
+              className="mt-6"
+            >
               {copy.link}
             </ArrowLink>
           </div>
@@ -59,6 +73,7 @@ export function ServicesPreview({ copy, locale, categories }: ServicesPreviewPro
                       alt={category.image.alt}
                       fill
                       sizes="(min-width: 64rem) 36vw, (min-width: 40rem) 6.5rem, 5rem"
+                      style={{ objectPosition: category.image.focalPoint }}
                       className="object-cover"
                     />
                   </div>

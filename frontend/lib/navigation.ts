@@ -26,6 +26,9 @@ const mobileKeys: NavKey[] = [...primaryKeys, "contact"];
 
 export const ADMIN_LOGIN_PATH = "/admin/login";
 
+export const legalSlugs = ["privacy", "cookies", "terms"] as const;
+export type LegalSlug = (typeof legalSlugs)[number];
+
 export function getNavigation(locale: Locale, dict: Dictionary) {
   const toItem = (key: NavKey): NavItem => ({
     label: dict.nav[key],
@@ -38,6 +41,12 @@ export function getNavigation(locale: Locale, dict: Dictionary) {
     booking: localizePath(locale, "/book"),
     work: localizePath(locale, paths.work),
     about: localizePath(locale, paths.about),
+    contact: localizePath(locale, paths.contact),
+    legal: legalSlugs.map((slug) => ({
+      slug,
+      label: dict.legal.titles[slug],
+      href: localizePath(locale, `/${slug}`),
+    })),
     primary: primaryKeys.map(toItem),
     mobile: mobileKeys.map(toItem),
   };
