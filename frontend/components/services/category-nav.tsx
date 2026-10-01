@@ -34,7 +34,7 @@ export function CategoryNav({ label, items }: CategoryNavProps) {
   return (
     <nav
       aria-label={label}
-      className="sticky top-18 z-20 border-y border-line bg-paper"
+      className="sticky top-[calc(4.5rem+var(--announce-h))] z-20 border-y border-line bg-paper"
     >
       <ul className="container-site flex gap-8 overflow-x-auto py-4 [scrollbar-width:none] sm:gap-10">
         {items.map((item) => (

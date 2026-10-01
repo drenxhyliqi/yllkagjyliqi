@@ -68,6 +68,20 @@
   }
 }
 
+/* The grand opening bar above the navigation adds its height to the header. */
+:root {
+  --announce-h: 0px;
+}
+:root[data-announce] {
+  --announce-h: 2.25rem;
+  --header-h: calc(4.5rem + var(--announce-h));
+}
+@media (width >= 64rem) {
+  :root[data-announce] {
+    --header-h: calc(5.5rem + var(--announce-h));
+  }
+}
+
 @layer base {
   html {
     color-scheme: light;
@@ -610,5 +624,19 @@
   .gallery-item {
     animation: fade-up 0.8s var(--ease-soft) both;
     animation-delay: calc(min(var(--i, 0), 8) * 70ms);
+  }
+}
+
+@layer components {
+  /* Grand opening announcement: one quiet line above the navigation. */
+  .announce-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--announce-h, 2.25rem);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
   }
 }

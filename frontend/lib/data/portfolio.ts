@@ -1,32 +1,48 @@
 import "server-only";
 
+import { cache } from "react";
+
 import type { Locale } from "@/i18n/config";
-import { getDemoFeaturedWork, getDemoPortfolio } from "@/lib/demo/portfolio";
+import { contentTags } from "@/lib/content-tags";
+import { publicFetch, type ApiImage } from "@/lib/data/public-api";
 import type { PortfolioItem } from "@/types/portfolio";
 
-/*
- * Portfolio items, published only, in display order.
- *
- * These return demo data for now. When the portfolio API exists they become
- * `apiFetch` calls; callers and components stay the same.
- */
+type ApiPortfolioItem = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  category: { slug: string; name: string } | null;
+  is_featured: boolean;
+  images: ApiImage[];
+};
 
-export async function getPortfolio(locale: Locale): Promise<PortfolioItem[]> {
-  return getDemoPortfolio(locale);
-}
+/** Published work with photos, in gallery order. */
+export const getPortfolio = cache(async (locale: Locale): Promise<PortfolioItem[]> => {
+  const items = await publicFetch<ApiPortfolioItem[]>(
+    `/api/portfolio?locale=${locale}`,
+    contentTags.portfolio,
+  );
+  return items.map((item) => ({
+    id: item.id,
+    slug: item.slug,
+    title: item.title,
+    description: item.description,
+    category: item.category,
+    featured: item.is_featured,
+    cover: item.images[0],
+    images: item.images,
+  }));
+});
 
 /** Items marked as featured, for the homepage. */
-export async function getFeaturedWork(
-  locale: Locale,
-): Promise<PortfolioItem[]> {
-  return getDemoFeaturedWork(locale);
+export async function getFeaturedWork(locale: Locale): Promise<PortfolioItem[]> {
+  return (await getPortfolio(locale)).filter((item) => item.featured);
 }
 
 export async function getPortfolioItem(
   locale: Locale,
   slug: string,
 ): Promise<PortfolioItem | null> {
-  return (
-    (await getPortfolio(locale)).find((item) => item.slug === slug) ?? null
-  );
+  return (await getPortfolio(locale)).find((item) => item.slug === slug) ?? null;
 }

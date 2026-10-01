@@ -7,10 +7,14 @@ import { ServiceCategory } from "@/components/services/service-category";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getServiceCatalog } from "@/lib/data/services";
 import { getNavigation } from "@/lib/navigation";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { servicesPage } = await getDictionary();
-  return { title: servicesPage.title, description: servicesPage.description };
+  return pageMetadata(await getLocale(), "/services", {
+    title: servicesPage.title,
+    description: servicesPage.description,
+  });
 }
 
 export default async function ServicesPage() {
@@ -34,9 +38,10 @@ export default async function ServicesPage() {
         label={copy.categoriesNav}
         items={catalog.map(({ slug, name }) => ({ slug, label: name }))}
       />
-      {catalog.map((category) => (
+      {catalog.map((category, index) => (
         <ServiceCategory
           key={category.id}
+          first={index === 0}
           category={category}
           locale={locale}
           pricing={dict.pricing}

@@ -8,11 +8,14 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { InlineScript } from "@/components/ui/inline-script";
 import { Logo } from "@/components/ui/logo";
+import { AnnouncementBar } from "@/components/grand-opening/announcement-bar";
 import { locales } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getBusinessInfo } from "@/lib/data/business";
 import { INTRO_STORAGE_KEY } from "@/lib/intro";
 import { getNavigation } from "@/lib/navigation";
+import { SITE_URL } from "@/lib/seo";
+import { openingPhase } from "@/lib/grand-opening";
 
 import "../globals.css";
 
@@ -26,8 +29,11 @@ export function generateStaticParams() {
 export async function generateMetadata(): Promise<Metadata> {
   const dict = await getDictionary();
   return {
+    metadataBase: new URL(SITE_URL),
     title: { default: dict.meta.title, template: "%s — Yllka" },
     description: dict.meta.description,
+    applicationName: "Yllka",
+    formatDetection: { telephone: false, email: false, address: false },
   };
 }
 
@@ -36,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * scroll reveals may start hidden) and decides whether the intro loader
  * plays: once per browser session.
  */
-const bootScript = `(function(){var r=document.documentElement;r.setAttribute("data-js","");var k=${JSON.stringify(INTRO_STORAGE_KEY)},s="play";try{if(sessionStorage.getItem(k))s="seen";else sessionStorage.setItem(k,"1")}catch(e){}window.__yllkaIntro=s;r.setAttribute("data-intro",s)})()`;
+const bootScript = `(function(){var r=document.documentElement;r.setAttribute("data-js","");var k=${JSON.stringify(INTRO_STORAGE_KEY)},s="play";if(!/^\\/(sq|en)\\/?$/.test(location.pathname))s="seen";else try{if(sessionStorage.getItem(k))s="seen";else sessionStorage.setItem(k,"1")}catch(e){}window.__yllkaIntro=s;r.setAttribute("data-intro",s)})()`;
 
 export const viewport: Viewport = {
   themeColor: "#faf7f2",
@@ -52,10 +58,16 @@ export default async function LocaleLayout({
   ]);
   const navigation = getNavigation(locale, dict);
 
+  // Rendered ahead of time; the bar itself keeps the phase up to date.
+  // eslint-disable-next-line react-hooks/purity
+  const phase = openingPhase(Date.now());
+  const openingBar = phase !== "over";
+
   return (
     <html
       lang={locale}
       data-scroll-behavior="smooth"
+      data-announce={openingBar ? "" : undefined}
       className={fontVariables}
       // The boot script adds attributes before React hydrates.
       suppressHydrationWarning
@@ -85,6 +97,16 @@ export default async function LocaleLayout({
             ...dict.header,
             bookAppointment: dict.common.bookAppointment,
           }}
+          announcement={
+            openingBar && (
+              <AnnouncementBar
+                copy={dict.grandOpening.bar}
+                offersHref={`${navigation.home}#oferta`}
+                bookHref={navigation.booking}
+                initialPhase={phase}
+              />
+            )
+          }
         />
         <main id="main" tabIndex={-1} className="pt-(--header-h) outline-none">
           {children}

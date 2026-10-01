@@ -49,7 +49,7 @@ export function LanguageSwitcher({ locale, label, className }: LanguageSwitcherP
             lang={option}
             aria-current={option === locale ? "true" : undefined}
             onClick={() => rememberLocale(option)}
-            className="-my-3 py-3 opacity-55 transition-opacity duration-300 hover:opacity-100 aria-[current=true]:opacity-100"
+            className="-my-3 py-3 opacity-65 transition-opacity duration-300 hover:opacity-100 aria-[current=true]:opacity-100"
           >
             {localeShortLabels[option]}
             <span className="sr-only"> {localeNames[option]}</span>

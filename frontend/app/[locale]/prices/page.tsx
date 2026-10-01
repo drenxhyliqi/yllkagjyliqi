@@ -8,10 +8,14 @@ import { localizePath } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { getServiceCatalog } from "@/lib/data/services";
 import { getNavigation } from "@/lib/navigation";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { pricesPage } = await getDictionary();
-  return { title: pricesPage.title, description: pricesPage.description };
+  return pageMetadata(await getLocale(), "/prices", {
+    title: pricesPage.title,
+    description: pricesPage.description,
+  });
 }
 
 export default async function PricesPage() {

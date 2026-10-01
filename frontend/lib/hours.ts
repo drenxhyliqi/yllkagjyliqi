@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { weekdayName } from "@/lib/dates";
 import type { OpeningHours } from "@/types/business";
 
 export type HoursRow = {
@@ -7,14 +8,6 @@ export type HoursRow = {
   /** "09:00 – 18:00", or null when closed. */
   time: string | null;
 };
-
-/** 2024-01-01 was a Monday, so weekday n (1 = Monday) falls on 2024-01-n. */
-function weekdayName(weekday: number, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale, {
-    weekday: "long",
-    timeZone: "UTC",
-  }).format(new Date(Date.UTC(2024, 0, weekday)));
-}
 
 function capitalize(text: string): string {
   return text.charAt(0).toLocaleUpperCase() + text.slice(1);

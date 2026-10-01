@@ -1,14 +1,37 @@
 import "server-only";
 
-import { demoBusinessInfo } from "@/lib/demo/business";
-import type { BusinessInfo } from "@/types/business";
+import { cache } from "react";
 
-/**
- * Contact details and opening hours.
- *
- * Returns demo data for now. When the settings API exists this becomes an
- * `apiFetch` call; callers and components stay the same.
- */
-export async function getBusinessInfo(): Promise<BusinessInfo> {
-  return demoBusinessInfo;
-}
+import { contentTags } from "@/lib/content-tags";
+import { publicFetch } from "@/lib/data/public-api";
+import type { BusinessInfo, OpeningHours } from "@/types/business";
+
+type ApiBusiness = Omit<BusinessInfo, "mapsUrl" | "hours"> & {
+  maps_url: string | null;
+  hours: OpeningHours[];
+};
+
+/** Contact details and opening hours, as Yllka set them in the admin. */
+export const getBusinessInfo = cache(async (): Promise<BusinessInfo> => {
+  try {
+    const { maps_url, ...business } = await publicFetch<ApiBusiness>(
+      "/api/business",
+      contentTags.business,
+    );
+    return { ...business, mapsUrl: maps_url };
+  } catch (error) {
+    // The header and footer need this on every page: keep the site up with
+    // the name alone rather than failing every page when the API is down.
+    console.error("Business details unavailable:", error);
+    return {
+      name: "Yllka",
+      phone: null,
+      email: null,
+      instagram: null,
+      facebook: null,
+      address: null,
+      mapsUrl: null,
+      hours: [],
+    };
+  }
+});
