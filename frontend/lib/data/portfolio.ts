@@ -4,7 +4,7 @@ import { cache } from "react";
 
 import type { Locale } from "@/i18n/config";
 import { contentTags } from "@/lib/content-tags";
-import { publicFetch, type ApiImage } from "@/lib/data/public-api";
+import { publicFetchOr, type ApiImage } from "@/lib/data/public-api";
 import type { PortfolioItem } from "@/types/portfolio";
 
 type ApiPortfolioItem = {
@@ -19,9 +19,10 @@ type ApiPortfolioItem = {
 
 /** Published work with photos, in gallery order. */
 export const getPortfolio = cache(async (locale: Locale): Promise<PortfolioItem[]> => {
-  const items = await publicFetch<ApiPortfolioItem[]>(
+  const items = await publicFetchOr<ApiPortfolioItem[]>(
     `/api/portfolio?locale=${locale}`,
     contentTags.portfolio,
+    [],
   );
   return items.map((item) => ({
     id: item.id,

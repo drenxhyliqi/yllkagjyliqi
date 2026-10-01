@@ -22,7 +22,7 @@ export const getBusinessInfo = cache(async (): Promise<BusinessInfo> => {
   } catch (error) {
     // The header and footer need this on every page: keep the site up with
     // the name alone rather than failing every page when the API is down.
-    console.error("Business details unavailable:", error);
+    console.error("API unavailable for /api/business; showing the name only.", String(error));
     return {
       name: "Yllka",
       phone: null,

@@ -182,6 +182,9 @@ export const sq: Dictionary = {
     titleStart: "Rezervoni",
     titleEmphasis: "terminin tuaj.",
     text: "Zgjidhni shërbimin, datën dhe orën që ju përshtaten, dhe lini të dhënat tuaja. Zgjat rreth një minutë.",
+    unavailableTitle: "Rezervimi online nuk është i disponueshëm për momentin.",
+    unavailableText: "Ju lutemi më kontaktoni dhe do t’ju gjej një orar.",
+    unavailableLink: "Kontakti",
     progressLabel: "Hapat e rezervimit",
     stepOf: "Hapi {current} nga {total}",
     steps: {

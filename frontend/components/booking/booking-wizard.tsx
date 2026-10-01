@@ -112,6 +112,20 @@ function useAvailability(query: string | null, key: string) {
 /** Remounts the wizard for "book another appointment". */
 export function BookingWizard(props: BookingWizardProps) {
   const [round, setRound] = useState(0);
+  // No bookable services (none set up yet, or the server is unreachable).
+  if (props.catalog.length === 0) {
+    return (
+      <div className="container-site pb-24 lg:pb-32">
+        <div className="max-w-xl border-t border-ink pt-10">
+          <h2 className="font-display text-display-md">{props.copy.unavailableTitle}</h2>
+          <p className="mt-4 text-stone">{props.copy.unavailableText}</p>
+          <Link href={props.links.contact} className="btn btn-primary mt-8">
+            {props.copy.unavailableLink}
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <Wizard
       key={round}

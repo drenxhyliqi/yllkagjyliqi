@@ -4,7 +4,7 @@ import { cache } from "react";
 
 import type { Locale } from "@/i18n/config";
 import { contentTags } from "@/lib/content-tags";
-import { publicFetch, type ApiImage } from "@/lib/data/public-api";
+import { publicFetchOr, type ApiImage } from "@/lib/data/public-api";
 import type { Category } from "@/types/category";
 import type { CategoryWithServices, PriceType } from "@/types/service";
 
@@ -30,9 +30,10 @@ type ApiCategory = {
 /** Active categories with their active services, both in display order. */
 export const getServiceCatalog = cache(
   async (locale: Locale): Promise<CategoryWithServices[]> => {
-    const categories = await publicFetch<ApiCategory[]>(
+    const categories = await publicFetchOr<ApiCategory[]>(
       `/api/catalog?locale=${locale}`,
       contentTags.catalog,
+      [],
     );
     return categories.map(
       (category): CategoryWithServices => ({

@@ -181,6 +181,9 @@ export const en = {
     titleEmphasis: "appointment.",
     text: "Choose a service, pick a date and time that suit you, and leave your details. It takes about a minute.",
     progressLabel: "Booking steps",
+    unavailableTitle: "Online booking isn’t available right now.",
+    unavailableText: "Please get in touch and I’ll find a time for you.",
+    unavailableLink: "Contact",
     stepOf: "Step {current} of {total}",
     steps: {
       service: "Service",
