@@ -37,3 +37,27 @@ def register_exception_handlers(app: FastAPI) -> None:
         return JSONResponse(
             {"message": "Something went wrong. Please try again."}, status_code=500
         )
+
+
+class NotFoundError(Exception):
+    """Something the request refers to doesn't exist. The message is shown to people."""
+
+
+class ConflictError(Exception):
+    """The change would leave data in a bad state, e.g. deleting a category in use."""
+
+
+class InvalidInputError(Exception):
+    """Input that passed the schema but doesn't make sense, e.g. an unknown photo id."""
+
+
+_STATUS = {NotFoundError: 404, ConflictError: 409, InvalidInputError: 422}
+
+
+def register_domain_errors(app: FastAPI) -> None:
+    for error_type, status_code in _STATUS.items():
+
+        async def handler(_: Request, exc: Exception, status_code: int = status_code) -> JSONResponse:
+            return JSONResponse({"message": str(exc)}, status_code=status_code)
+
+        app.add_exception_handler(error_type, handler)

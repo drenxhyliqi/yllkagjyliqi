@@ -1,12 +1,10 @@
-import threading
-import time
-from collections import defaultdict, deque
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.config import get_settings
+from app.core.exceptions import ConflictError
 from app.core.security import (
     hash_password,
     hash_session_token,
@@ -69,49 +67,30 @@ def get_admin_by_token(db: Session, token: str) -> Admin | None:
     return session.admin
 
 
+def change_email(db: Session, admin: Admin, email: str) -> Admin:
+    email = normalize_email(email)
+    taken = db.scalar(select(Admin).where(Admin.email == email, Admin.id != admin.id))
+    if taken is not None:
+        raise ConflictError("That email is already used by another account.")
+    admin.email = email
+    db.commit()
+    return admin
+
+
+def change_password(db: Session, admin: Admin, new_password: str, keep_token: str) -> None:
+    """Sets a new password and signs out every other device."""
+    admin.password_hash = hash_password(new_password)
+    db.execute(
+        delete(AdminSession).where(
+            AdminSession.admin_id == admin.id,
+            AdminSession.token_hash != hash_session_token(keep_token),
+        )
+    )
+    db.commit()
+
+
 def revoke_session(db: Session, token: str) -> None:
     db.execute(
         delete(AdminSession).where(AdminSession.token_hash == hash_session_token(token))
     )
     db.commit()
-
-
-class LoginThrottle:
-    """
-    Limits failed sign-ins per email address.
-
-    In-memory, so limits reset on restart and are per process. That is enough
-    for a single-admin site running one API process.
-    """
-
-    def __init__(self, max_failures: int = 5, window_seconds: int = 15 * 60) -> None:
-        self.max_failures = max_failures
-        self.window_seconds = window_seconds
-        self._failures: defaultdict[str, deque[float]] = defaultdict(deque)
-        self._lock = threading.Lock()
-
-    def retry_after(self, key: str) -> int | None:
-        """Seconds until another attempt is allowed, or None if allowed now."""
-        with self._lock:
-            failures = self._prune(key)
-            if len(failures) < self.max_failures:
-                return None
-            return max(1, int(failures[0] + self.window_seconds - time.monotonic()))
-
-    def record_failure(self, key: str) -> None:
-        with self._lock:
-            self._prune(key).append(time.monotonic())
-
-    def reset(self, key: str) -> None:
-        with self._lock:
-            self._failures.pop(key, None)
-
-    def _prune(self, key: str) -> deque[float]:
-        failures = self._failures[key]
-        cutoff = time.monotonic() - self.window_seconds
-        while failures and failures[0] <= cutoff:
-            failures.popleft()
-        return failures
-
-
-login_throttle = LoginThrottle()
