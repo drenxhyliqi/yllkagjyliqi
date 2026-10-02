@@ -8,6 +8,14 @@ import { expect, test } from "@playwright/test";
 // A different phone each run, so the "3 requests waiting" limit never trips.
 const phone = () => `+383 44 ${String(Math.floor(Math.random() * 1e6)).padStart(6, "0")}`;
 
+// Each run looks like a different visitor, so repeated test runs don't hit the
+// site's "10 booking attempts per hour" limit. (On Vercel this header is set by
+// Vercel itself and can't be faked.)
+test.beforeEach(async ({ page }) => {
+  const visitor = `10.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+  await page.setExtraHTTPHeaders({ "X-Forwarded-For": visitor });
+});
+
 test("book an appointment, then cancel it from the private link", async ({ page }) => {
   await page.goto("/sq/book");
 
@@ -26,9 +34,11 @@ test("book an appointment, then cancel it from the private link", async ({ page 
   let chosen = false;
   for (let index = 0; index < (await days.count()) && !chosen; index++) {
     await days.nth(index).click();
-    const freeTime = page.locator('input[name="time"]').first();
+    // Tap the visible time, like a visitor; the radio inside is hidden.
+    const freeTime = page.locator('label:has(input[name="time"])').first();
     if ((await freeTime.count()) > 0) {
-      await freeTime.check({ force: true });
+      await freeTime.click();
+      await expect(freeTime.locator("input")).toBeChecked();
       chosen = true;
     }
   }
