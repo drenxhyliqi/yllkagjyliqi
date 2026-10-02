@@ -4,7 +4,6 @@ import {
   defaultLocale,
   isLocale,
   LOCALE_COOKIE,
-  locales,
   type Locale,
 } from "@/i18n/config";
 import { SESSION_COOKIE } from "@/lib/session-cookie";
@@ -47,26 +46,14 @@ function guardAdmin(request: NextRequest) {
   return NextResponse.redirect(url);
 }
 
-/** Saved choice first, then the browser's languages, then Albanian. */
+/**
+ * Albanian unless the visitor chose English with the language switcher
+ * (remembered in a cookie). The browser's language is deliberately ignored:
+ * Yllka's site opens in Albanian for everyone.
+ */
 function preferredLocale(request: NextRequest): Locale {
   const saved = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (isLocale(saved)) return saved;
-
-  const accepted = (request.headers.get("accept-language") ?? "")
-    .split(",")
-    .map((part) => {
-      const [tag, q] = part.trim().split(";q=");
-      return {
-        language: tag.split("-")[0].toLowerCase(),
-        weight: q ? Number(q) : 1,
-      };
-    })
-    .sort((a, b) => b.weight - a.weight);
-
-  const match = accepted.find(({ language }) =>
-    locales.includes(language as Locale),
-  );
-  return match ? (match.language as Locale) : defaultLocale;
+  return isLocale(saved) ? saved : defaultLocale;
 }
 
 export const config = {
