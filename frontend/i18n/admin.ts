@@ -490,6 +490,10 @@ export const adminText = {
     title: "Diçka shkoi keq",
     text: "Paneli nuk mund të lidhet me serverin. Ju lutemi provoni përsëri pas pak.",
     retry: "Provo përsëri",
+    /** The page was opened before a new version of the site went live. */
+    outdatedTitle: "Paneli u përditësua",
+    outdatedText: "Ringarkoni faqen dhe provoni përsëri.",
+    reload: "Ringarko faqen",
   },
   login: {
     title: "Hyr",
