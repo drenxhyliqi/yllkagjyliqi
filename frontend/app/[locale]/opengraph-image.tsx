@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 import { ImageResponse } from "next/og";
 
-import { isLocale } from "@/i18n/config";
+import { isLocale, locales } from "@/i18n/config";
 
 /*
  * The picture shown when a link to the site is shared (WhatsApp, Instagram,
@@ -14,7 +14,12 @@ export const alt = "Yllka — Hair & Makeup";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const taglines = { sq: "Flokë & Make-up", en: "Hair & Makeup" };
+// Drawn once per language at build time, not on every link preview.
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+const taglines ={ sq: "Flokë & Make-up", en: "Hair & Makeup" };
 const footers = { sq: "Rezervoni terminin online", en: "Book your appointment online" };
 
 export default async function Image({ params }: { params: Promise<{ locale: string }> }) {

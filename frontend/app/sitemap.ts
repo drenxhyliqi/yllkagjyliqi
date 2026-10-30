@@ -9,8 +9,8 @@ const PAGES = ["/", "/services", "/prices", "/work", "/about", "/contact", "/boo
 
 /** Every public page in both languages, each pointing to its translation. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Work pages come from the database; the rest of the sitemap still works if it's down.
-  const work = await getPortfolio("sq").catch(() => []);
+  // Work pages come from the database.
+  const work = await getPortfolio("sq");
   const paths = [...PAGES, ...work.map((item) => `/work/${item.slug}`), ...legalSlugs.map((slug) => `/${slug}`)];
 
   return paths.flatMap((path) =>

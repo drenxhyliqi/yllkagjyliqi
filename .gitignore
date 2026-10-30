@@ -13,3 +13,6 @@ __pycache__/
 
 # Uploaded images in local development
 backend/media/
+
+# Vercel CLI project link
+.vercel
